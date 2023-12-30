@@ -74,3 +74,23 @@ function renameFile(fileId) {
             .catch(error => console.log('error', error));
     }
 }
+
+function deleteFile(fileId) {
+    const confirmDelete = confirm('Are you sure you want to delete this file?');
+    if (confirmDelete) {
+        const requestOptions = {
+            method: 'DELETE',
+            credentials: 'include',
+            redirect: 'follow'
+        };
+
+        fetch(HOST + `/delete/${fileId}/`, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result);
+                // Refresh the file list after deletion
+                window.location.reload();
+            })
+            .catch(error => console.log('error', error));
+    }
+}
