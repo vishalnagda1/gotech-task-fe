@@ -31,10 +31,46 @@ function displayFileList(files) {
             <span>${file.file_name}</span>
             <button onclick="renameFile(${file.file_id})">Rename</button>
             <button onclick="deleteFile(${file.file_id})">Delete</button>
+            <button onclick="downloadFile(${file.file_id}, '${file.file_name}')">Download</button>
             <button onclick="extractData(${file.file_id})">Extract Data</button>
         `;
         fileListContainer.appendChild(fileItem);
     });
+}
+
+// Function to download a file
+function downloadFile(fileId, fileName) {
+    const requestOptions = {
+        method: 'GET',
+        credentials: 'include',
+        redirect: 'follow'
+    };
+
+    fetch(`${HOST}/download/${fileId}/`, requestOptions)
+        .then(response => response.blob())
+        .then(blob => {
+            // Create an anchor element
+            const downloadLink = document.createElement('a');
+
+            // Create a Blob URL from the blob data
+            const blobUrl = window.URL.createObjectURL(blob);
+
+            // Set the anchor's href to the Blob URL
+            downloadLink.href = blobUrl;
+
+            // Set the download attribute with the desired file name
+            downloadLink.download = fileName;
+
+            // Append the anchor to the document
+            document.body.appendChild(downloadLink);
+
+            // Simulate a click to trigger the download
+            downloadLink.click();
+
+            // Remove the anchor from the document
+            document.body.removeChild(downloadLink);
+        })
+        .catch(error => console.log('error', error));
 }
 
 function logout() {
