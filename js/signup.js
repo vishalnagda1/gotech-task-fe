@@ -9,8 +9,8 @@ function resetData (e) {
 
 function submitData (e) {
     e.preventDefault();
-    username = document.getElementById('username').value;
-    password = document.getElementById('password').value;
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
     fetch(HOST+'/signup/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
