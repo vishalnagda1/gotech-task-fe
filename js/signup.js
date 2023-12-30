@@ -1,10 +1,10 @@
 const HOST = 'http://127.0.0.1:8000/pdf';
 
-function resetData (e) {
+function resetData(e) {
     e.preventDefault();
     document.getElementById('username').value = '';
     document.getElementById('password').value = '';
-    console.log('form reseted');
+    console.log('form reset');
 }
 
 function submitData (e) {
