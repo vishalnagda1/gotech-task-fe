@@ -94,3 +94,29 @@ function deleteFile(fileId) {
             .catch(error => console.log('error', error));
     }
 }
+
+function uploadFile() {
+    const fileInput = document.getElementById('fileInput');
+    const file = fileInput.files[0];
+
+    if (file) {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const requestOptions = {
+            method: 'POST',
+            credentials: 'include',
+            body: formData,
+            redirect: 'follow'
+        };
+
+        fetch(HOST + '/upload/', requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result);
+                // Refresh the file list after upload
+                window.location.reload();
+            })
+            .catch(error => console.log('error', error));
+    }
+}
