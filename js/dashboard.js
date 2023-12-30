@@ -137,7 +137,7 @@ function extractData(fileId) {
     const requestOptions = {
         method: 'POST',
         credentials: 'include',
-        body: JSON.stringify({ force_extraction: true }),
+        body: JSON.stringify({ force_extraction: false }),
         headers: {
             'Content-Type': 'application/json',
         },
