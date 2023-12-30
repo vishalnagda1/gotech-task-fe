@@ -1,3 +1,4 @@
+const BASE_URL = 'http://127.0.0.1:8000';
 const HOST = 'http://127.0.0.1:8000/pdf';
 
 window.onload = function () {
@@ -111,6 +112,7 @@ function extractData(fileId) {
         .then(response => response.json())
         .then(result => {
             console.log(result);
+            handleExtractedData(result.images, result.text);
             // Refresh the file list after extraction
             // window.location.reload();
         })
@@ -141,4 +143,33 @@ function uploadFile() {
             })
             .catch(error => console.log('error', error));
     }
+}
+
+function handleExtractedData(images, text) {
+    const modal = document.getElementById('extractedDataModal');
+    const modalContent = document.getElementById('extractedDataContent');
+
+    // Clear existing content
+    modalContent.innerHTML = '';
+
+    // Display extracted text
+    const textElement = document.createElement('p');
+    textElement.textContent = 'Extracted Text:\n' + text;
+    modalContent.appendChild(textElement);
+
+    // Display extracted images
+    images.forEach(imagePath => {
+        const imageElement = document.createElement('img');
+        imageElement.src = BASE_URL + imagePath;
+        modalContent.appendChild(imageElement);
+    });
+
+    // Display the modal
+    modal.style.display = 'block';
+}
+
+// Close the modal
+function closeModal() {
+    const modal = document.getElementById('extractedDataModal');
+    modal.style.display = 'none';
 }
