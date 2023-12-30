@@ -30,6 +30,7 @@ function displayFileList(files) {
             <span>${file.file_name}</span>
             <button onclick="renameFile(${file.file_id})">Rename</button>
             <button onclick="deleteFile(${file.file_id})">Delete</button>
+            <button onclick="extractData(${file.file_id})">Extract Data</button>
         `;
         fileListContainer.appendChild(fileItem);
     });
@@ -93,6 +94,27 @@ function deleteFile(fileId) {
             })
             .catch(error => console.log('error', error));
     }
+}
+
+function extractData(fileId) {
+    const requestOptions = {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify({ force_extraction: true }),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        redirect: 'follow'
+    };
+
+    fetch(HOST + `/extract/${fileId}/`, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result);
+            // Refresh the file list after extraction
+            // window.location.reload();
+        })
+        .catch(error => console.log('error', error));
 }
 
 function uploadFile() {
