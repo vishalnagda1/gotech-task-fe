@@ -7,19 +7,20 @@ function resetData(e) {
     console.log('form reset');
 }
 
-function submitData (e) {
+function submitData(e) {
     e.preventDefault();
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
-    fetch(HOST+'/signup/', {
+    let message = document.getElementById('message');
+
+    fetch(HOST + '/signup/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({username, password}),
+        body: JSON.stringify({ username, password }),
     }).then(response => response.json()).then(data => {
         console.log('data', data);
-        let message = document.getElementById('message');
         let redirectTo = '/';
-        if(data.message === 'User created successfully') {
+        if (data.message === 'User created successfully') {
             message.innerHTML = 'User created successfully. Redirecting to signin page.';
             redirectTo = 'signin.html';
         } else {
@@ -29,5 +30,8 @@ function submitData (e) {
             window.location.href = redirectTo;
         }, 3000);  // Redirect after 3 seconds
     })
-    // console.log('form submitted');
+        .catch(error => {
+            console.error('Error during login:', error);
+            message.innerHTML = 'Failed to signup, Contact your developer.';
+        });
 }
