@@ -193,12 +193,19 @@ function handleExtractedData(images, text) {
     textElement.textContent = 'Extracted Text:\n' + text;
     modalContent.appendChild(textElement);
 
-    // Display extracted images
+    // Display extracted images in a container
+    const imagesContainer = document.createElement('div');
+    imagesContainer.style.overflowX = 'auto'; // Add a horizontal scrollbar if necessary
+
     images.forEach(imagePath => {
         const imageElement = document.createElement('img');
         imageElement.src = BASE_URL + imagePath;
-        modalContent.appendChild(imageElement);
+        imageElement.style.maxWidth = '100%'; // Ensure images don't exceed the container width
+        imageElement.style.maxHeight = '200px'; // Set the maximum height for each image
+        imagesContainer.appendChild(imageElement);
     });
+
+    modalContent.appendChild(imagesContainer);
 
     // Display the modal
     modal.style.display = 'block';
