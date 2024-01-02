@@ -200,8 +200,19 @@ function handleExtractedData(images, text) {
     images.forEach(imagePath => {
         const imageElement = document.createElement('img');
         imageElement.src = BASE_URL + imagePath;
-        imageElement.style.maxWidth = '100%'; // Ensure images don't exceed the container width
-        imageElement.style.maxHeight = '200px'; // Set the maximum height for each image
+        imageElement.style.cursor = 'pointer'; // Add pointer cursor to indicate it's clickable
+
+        // Add click event listener to open the image in screen-fit height
+        imageElement.addEventListener('click', function () {
+            openImageFullScreen(imageElement.src);
+        });
+
+        // Ensure images don't exceed the container width
+        imageElement.style.maxWidth = '100%';
+
+        // Set the maximum height for each image (adjust as needed)
+        imageElement.style.maxHeight = '200px';
+
         imagesContainer.appendChild(imageElement);
     });
 
@@ -209,6 +220,34 @@ function handleExtractedData(images, text) {
 
     // Display the modal
     modal.style.display = 'block';
+}
+
+// Open the image in screen-fit height
+function openImageFullScreen(imageSrc) {
+    const fullscreenContainer = document.createElement('div');
+    fullscreenContainer.style.position = 'fixed';
+    fullscreenContainer.style.top = '0';
+    fullscreenContainer.style.left = '0';
+    fullscreenContainer.style.width = '100%';
+    fullscreenContainer.style.height = '100%';
+    fullscreenContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+    fullscreenContainer.style.display = 'flex';
+    fullscreenContainer.style.alignItems = 'center';
+    fullscreenContainer.style.justifyContent = 'center';
+    fullscreenContainer.style.zIndex = '9999';
+
+    const fullscreenImage = document.createElement('img');
+    fullscreenImage.src = imageSrc;
+    fullscreenImage.style.maxHeight = '100%';
+    fullscreenImage.style.maxWidth = '100%';
+
+    // Add click event listener to close the fullscreen view
+    fullscreenImage.addEventListener('click', function () {
+        fullscreenContainer.remove();
+    });
+
+    fullscreenContainer.appendChild(fullscreenImage);
+    document.body.appendChild(fullscreenContainer);
 }
 
 // Close the modal
