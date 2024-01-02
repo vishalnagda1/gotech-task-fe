@@ -243,12 +243,39 @@ function openImageFullScreen(imageSrc) {
 
     // Add click event listener to close the fullscreen view
     fullscreenImage.addEventListener('click', function () {
-        fullscreenContainer.remove();
+        closeFullscreen();
     });
 
     fullscreenContainer.appendChild(fullscreenImage);
     document.body.appendChild(fullscreenContainer);
+
+    // Add event listeners for 'Esc' key and clicks outside the image
+    document.addEventListener('keydown', handleEscKey);
+    fullscreenContainer.addEventListener('click', handleCloseClick);
+
+    // Function to close the fullscreen view
+    function closeFullscreen() {
+        fullscreenContainer.remove();
+        // Remove event listeners
+        document.removeEventListener('keydown', handleEscKey);
+        fullscreenContainer.removeEventListener('click', handleCloseClick);
+    }
+
+    // Function to handle 'Esc' key press
+    function handleEscKey(event) {
+        if (event.key === 'Escape') {
+            closeFullscreen();
+        }
+    }
+
+    // Function to handle clicks outside the image
+    function handleCloseClick(event) {
+        if (event.target === fullscreenContainer) {
+            closeFullscreen();
+        }
+    }
 }
+
 
 // Close the modal
 function closeModal() {
